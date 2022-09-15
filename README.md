@@ -3,7 +3,7 @@
 
 Url: http://0.0.0.0:8000
 
-Запросы:\
+Запросы:
 1. /add_client
    1. Метод: POST
    2. request-body: array of jsons
