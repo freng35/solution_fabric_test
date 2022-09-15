@@ -1,0 +1,316 @@
+---
+openapi: 3.0.0
+info:
+  title: FabricTest
+  description: The API for the Fabric Test project
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/PIRYAZEV555_1/Fabric/1.0.0
+  description: SwaggerHub API Auto Mocking
+- url: https://localhost:8000
+  description: SwaggerHub API Auto Mocking
+paths:
+  /add_client:
+    post:
+      tags:
+      - Client
+      operationId: add client
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientAddInfo'
+      responses:
+        "200":
+          description: successfully add clients
+        "400":
+          description: Invalid format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                response:
+                  value: |-
+                    {
+                      "code": 400,
+                      "message": "Validation Failed"
+                    }
+  /delete_client/{clientId}:
+    delete:
+      tags:
+      - Client
+      parameters:
+      - name: clientId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: delete success
+        "404":
+          description: item not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                response:
+                  value: |-
+                    {
+                      "code": 404,
+                      "message": "Item not found"
+                    }
+  /update_client/{clientId}:
+    put:
+      tags:
+      - Client
+      parameters:
+      - name: clientId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArrayClientItems'
+      responses:
+        "200":
+          description: update success
+        "404":
+          description: item not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientAddInfo'
+              examples:
+                response:
+                  value: |-
+                    {
+                      "code": 404,
+                      "message": "Item not found"
+                    }
+  /add_mail:
+    post:
+      tags:
+      - Mail
+      operationId: add mail
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MailAddInfo'
+      responses:
+        "200":
+          description: successfully add mails
+        "400":
+          description: Invalid format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                response:
+                  value: |-
+                    {
+                      "code": 400,
+                      "message": "Validation Failed"
+                    }
+  /delete_mail/{mailId}:
+    delete:
+      tags:
+      - Mail
+      parameters:
+      - name: mailId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: delete success
+        "404":
+          description: item not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                response:
+                  value: |-
+                    {
+                      "code": 404,
+                      "message": "Item not found"
+                    }
+  /update_mail/{mailId}:
+    put:
+      tags:
+      - Mail
+      parameters:
+      - name: mailId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MailAddInfo'
+      responses:
+        "200":
+          description: update success
+        "404":
+          description: item not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MailAddInfo'
+              examples:
+                response:
+                  value: |-
+                    {
+                      "code": 404,
+                      "message": "Item not found"
+                    }
+  /get_mails:
+    get:
+      tags:
+      - Mail
+      responses:
+        "200":
+          description: Info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mails'
+  /get_mail_msgs/{mailId}:
+    get:
+      tags:
+      - Msg
+      parameters:
+      - name: mailId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SystemItem'
+        "404":
+          description: item not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MailAddInfo'
+              examples:
+                response:
+                  value: |-
+                    {
+                      "code": 404,
+                      "message": "Item not found"
+                    }
+components:
+  schemas:
+    SystemItem:
+      type: array
+      items:
+        $ref: '#/components/schemas/msgInfo'
+    MailAddInfo:
+      type: object
+      properties:
+        mail_id:
+          type: integer
+          example: 1212
+        date_start:
+          type: string
+          description: ISO FORMAT
+          example: 2022-09-15T20:51:55Z
+        text:
+          type: string
+          example: asasda
+        filter:
+          type: integer
+          example: 112
+        date_end:
+          type: string
+          description: ISO FORMAT
+          example: 2022-09-15T20:52:55Z
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          nullable: false
+        message:
+          type: string
+          nullable: false
+    ClientAddInfo:
+      type: array
+      items:
+        $ref: '#/components/schemas/ArrayClientItems'
+    ArrayClientItems:
+      type: object
+      properties:
+        client_id:
+          type: integer
+          example: 11
+        phone_number:
+          type: string
+          example: "79999999999"
+        operator_code:
+          type: integer
+          example: 987
+        tag:
+          type: integer
+          example: 112
+        time_zone:
+          type: integer
+          example: 2
+    msgInfo:
+      type: object
+      properties:
+        msg_id:
+          type: integer
+          example: 11
+        date_send:
+          type: string
+          description: ISO FORMAT
+          example: 2022-09-15T00:00:00Z
+        status:
+          type: string
+          example: sent
+        mail_id:
+          type: integer
+          example: 112
+        client_id:
+          type: integer
+          example: 2
+    Mails:
+      type: object
+      properties:
+        sent:
+          type: array
+          items:
+            $ref: '#/components/schemas/msgInfo'
+        cancelled:
+          type: array
+          items:
+            $ref: '#/components/schemas/msgInfo'
