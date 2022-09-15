@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  fabric_db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    restart: on-failure
+    container_name: fabric_db
+
+  fabric_service:
+    build:
+      context: .
+    depends_on:
+      - fabric_db
+    ports:
+    - "8000:8000"
+    command: bash docker-entrypoint.sh
+    restart: on-failure
